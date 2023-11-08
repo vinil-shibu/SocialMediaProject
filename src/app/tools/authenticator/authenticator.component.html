@@ -1,23 +1,30 @@
 <div id="authenticator">
     <mat-card id="authenticator-content">
-        <mat-card-header>
+        <mat-card-header style="justify-content: center;">
             <mat-card-title>{{head}}</mat-card-title>
         </mat-card-header>
+        <!-- Login👇 -->
         <div *ngIf="buttonClick=='Login'">
-            <input placeholder="Email">
-            <input placeholder="Password" type="password">
-            <button mat-flat-button color="warn">Login</button>
+            <input #loginEmail placeholder="Email">
+            <input #loginPassword placeholder="Password" type="password">
+            <button (click)="onLogin(loginEmail,loginPassword)" mat-flat-button color="warn">Login</button>
         </div>
+        <!-- Register👇 -->
         <div *ngIf="buttonClick=='CreateAccount'">
-            <input placeholder="Email">
-            <input type="password" placeholder="Password">
-            <input type="password" placeholder="Comfirm Password">
-            <button mat-flat-button color="warn">Create</button>
+            <input #registerEmail placeholder="Email">
+            <input #registerPassword type="password" placeholder="Password">
+            <input #registerComfirmPassword type="password" placeholder="Comfirm Password">
+            <button (click)="onRegisterClick(
+                registerEmail,
+                registerPassword,registerComfirmPassword
+            )" mat-flat-button color="warn">Create</button>
         </div>
+        <!-- Reset Password👇 -->
         <div *ngIf="buttonClick=='ForgetPassword'">
-            <input placeholder="Email">
-            <button mat-flat-button color="warn">Reset</button>
+            <input #resetEmail placeholder="Email">
+            <button (click)="onResetClick(resetEmail)" mat-flat-button color="warn">Reset</button>
         </div>
+
         <mat-card-actions align="end">
             <button (click)="onForgetPasswordClick()" mat-flat-button>Forgot Password</button>
             <button (click)="OnCreateAccountClick()" mat-flat-button>Create an Account</button>

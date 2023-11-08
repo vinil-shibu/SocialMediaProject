@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseTSAuth } from 'firebasets/firebaseTSAuth/firebaseTSAuth';
+import { FirebaseTSApp } from 'firebasets/firebasetsApp/firebaseTSApp';
 
 @Component({
   selector: 'app-authenticator',
@@ -6,35 +8,111 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./authenticator.component.css']
 })
 export class AuthenticatorComponent implements OnInit {
-  state= AuthenticatorCompState.LOGIN;
-  head:string|undefined='Login';
-  buttonClick:string|undefined='Login';
-  constructor() { }
+  // state= AuthenticatorCompState.LOGIN;
+  head: string | undefined = 'Login';
+  buttonClick: string | undefined = 'Login';
+  firebasetsAuth: FirebaseTSAuth;
+  constructor() {
+    this.firebasetsAuth = new FirebaseTSAuth;
+  }
 
   ngOnInit(): void {
   }
 
-  onForgetPasswordClick(){
-    this.buttonClick='ForgetPassword';
-    this.head='Forgot Password'
+  onResetClick(resetEmail: HTMLInputElement){
+    let email= resetEmail.value;
+    if(this.isNotEmpty(email)){
+      this.firebasetsAuth.sendPasswordResetEmail(
+        {
+          email:email,
+          onComplete: (uc) => {
+            alert(`Reset email is sent to ${email}`)
+            resetEmail.value="";
+          },
+        }
+      );
+    }
+  }
+
+  onLogin(loginEmail: HTMLInputElement, loginPassword: HTMLInputElement) {
+    let email = loginEmail.value;
+    let password = loginPassword.value;
+    if (this.isNotEmpty(email) && this.isNotEmpty(password)) {
+      this.firebasetsAuth.signInWith(
+        {
+          email:email,
+          password:password,
+          onComplete: (uc) => {
+            alert('Login Successful')
+            loginEmail.value="";
+            loginPassword.value="";
+          },
+          onFail: (err) => {
+            alert(err)
+          },
+        }
+      );
+    }
+  }
+
+  onRegisterClick(
+    registerEmail: HTMLInputElement,
+    registerPassword: HTMLInputElement,
+    registerComfirmPassword: HTMLInputElement) {
+    let email = registerEmail.value;
+    let password = registerPassword.value;
+    let comfirmPssword = registerComfirmPassword.value;
+
+    if (
+      this.isNotEmpty(email) && this.isNotEmpty(password) &&
+      this.isNotEmpty(comfirmPssword) && this.isMatching(password, comfirmPssword)
+    ) {
+      this.firebasetsAuth.createAccountWith(
+        {
+          email: email,
+          password: password,
+          onComplete: (uc) => {
+            alert('Account Created')
+            registerEmail.value = "";
+            registerPassword.value = "";
+            registerComfirmPassword.value = "";
+          },
+          onFail: (err) => {
+            alert('Failed to Create Account')
+          },
+        });
+    }
+  }
+
+  isNotEmpty(text: string) {
+    return text != null && text.length > 0
+  }
+
+  isMatching(pass1: string, pass2: string) {
+    return pass1 == pass2
+  }
+
+  onForgetPasswordClick() {
+    this.buttonClick = 'ForgetPassword';
+    this.head = 'Forgot Password'
     // this.state=AuthenticatorCompState.FORGOT_PASSWORD;
   }
-  
-  OnCreateAccountClick(){
-    this.buttonClick='CreateAccount';
-    this.head='Register';
+
+  OnCreateAccountClick() {
+    this.buttonClick = 'CreateAccount';
+    this.head = 'Register';
     // this.state=AuthenticatorCompState.REGISTER;
   }
-  
-  onLoginClick(){
-    this.buttonClick='Login';
-    this.head='Login';
+
+  onLoginClick() {
+    this.buttonClick = 'Login';
+    this.head = 'Login';
     // this.state=AuthenticatorCompState.LOGIN;
   }
 
 }
 
-export enum AuthenticatorCompState{
+export enum AuthenticatorCompState {
   LOGIN,
   REGISTER,
   FORGOT_PASSWORD
