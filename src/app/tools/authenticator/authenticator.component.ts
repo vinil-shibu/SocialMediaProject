@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AuthenticatorComponent implements OnInit {
   // state= AuthenticatorCompState.LOGIN;
-  head: string | undefined = 'Login';
-  buttonClick: string | undefined = 'Login';
+  head: string= 'Login';
+  buttonClick: string = 'Login';
   firebasetsAuth: FirebaseTSAuth;
   constructor(private bottomSheetRef: MatBottomSheetRef,private router:Router) {
     this.firebasetsAuth = new FirebaseTSAuth;
