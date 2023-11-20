@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthenticatorComponent } from './tools/authenticator/authenticator.component';
 import { EmailVerificationComponent } from './pages/email-verification/email-verification.component';
+import { PostFeedComponent } from './pages/post-feed/post-feed.component';
+import { CreatePostComponent } from './tools/create-post/create-post.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
   {
     path:"emailVerification",
     component:EmailVerificationComponent
+  },
+  {
+    path:"postfeed",
+    component:PostFeedComponent
+  },
+  {
+    path:"createpost",
+    component:CreatePostComponent
   },
   {
     path:"**",

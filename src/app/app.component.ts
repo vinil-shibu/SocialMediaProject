@@ -59,7 +59,11 @@ export class AppComponent implements OnInit{
         onUpdate:(result) => {  
           if(result.data){
             this.userDocument=<UsersDocument>result.data();
-            this.userHasProfile = result.exists;}
+            this.userHasProfile = result.exists;
+          }
+          if(this.userHasProfile){
+            this.router.navigate(['postfeed']);
+          }
         },
       }
     );
