@@ -4,3 +4,11 @@
     right: 2em;
     
 }
+
+#post-feed{
+    max-width: 500px;
+    margin-top: 5em;
+    margin-right: auto;
+    margin-left: auto;
+    border-bottom: 1px solid #ddd;
+}
