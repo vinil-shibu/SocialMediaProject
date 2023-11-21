@@ -28,3 +28,31 @@
     -webkit-box-sizing: border-box;
     direction: ltr;
  }
+
+ .comment_container{
+   display: flex;
+ }
+
+ .comment-name{
+   font-size: .9em;
+ }
+
+ .comment{
+   border-radius: 1em;
+   background-color: gainsboro;
+   padding: 1em;
+   width: fit-content;
+ }
+
+ .creator-comment-container{
+  display: flex;
+   justify-content: flex-end;
+   text-align: end;
+
+ }
+
+ .creator-comment{
+   background-color: #dc2f02;
+   color: white;
+   justify-self: end;
+ }

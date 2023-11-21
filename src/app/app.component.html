@@ -6,7 +6,7 @@
         <div id="nav-bar-right">
             <div *ngIf="!loggedIn()" class="nav-bar-items"><a mat-raised-button 
                 (click)="onLoginClick()">Login</a></div>
-            <div *ngIf="loggedIn() && userHasProfile" class="nav-bar-items" style="color: aliceblue;">Hello, {{userDocument!.publicName}}</div>
+            <div *ngIf="loggedIn() && userHasProfile" class="nav-bar-items" style="color: aliceblue;">Hello, {{getUsername()}}</div>
             <div *ngIf="loggedIn()" class="nav-bar-items"><a mat-raised-button 
                 (click)="onLogoutClick()">LogOut</a></div>
         </div>

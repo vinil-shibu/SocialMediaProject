@@ -15,8 +15,7 @@ export class AppComponent implements OnInit{
   auth = new FirebaseTSAuth();
   fireStore=new FirebaseTSFirestore();
   userHasProfile=true;
-  userDocument: UsersDocument | undefined;
-  uname:string='';
+  private static userDocument: UsersDocument |undefined;
 
   constructor(private loginSheet: MatBottomSheet,private router:Router) {
     this.fireStore  = new FirebaseTSFirestore();
@@ -29,6 +28,7 @@ export class AppComponent implements OnInit{
             whenSignedIn: user =>{
             },
             whenSignedOut :user =>{
+              AppComponent.userDocument=undefined
               alert('Logged out');
             },
             whenSignedInAndEmailNotVerified : user =>{
@@ -49,6 +49,18 @@ export class AppComponent implements OnInit{
     
   }
 
+  public static getUserDocument(){
+    return AppComponent.userDocument;
+  }
+
+  getUsername(){
+    try{
+      return AppComponent.userDocument?.publicName
+    }
+    catch(err){
+      return console.warn("username Not fetched");
+    }
+  }
 
   getUserProfile(){
     this.fireStore.listenToDocument(
@@ -58,8 +70,9 @@ export class AppComponent implements OnInit{
         
         onUpdate:(result) => {  
           if(result.data){
-            this.userDocument=<UsersDocument>result.data();
+            AppComponent.userDocument=<UsersDocument>result.data();
             this.userHasProfile = result.exists;
+            AppComponent.userDocument.userId = this.auth.getAuth().currentUser!.uid;
           }
           if(this.userHasProfile){
             this.router.navigate(['postfeed']);
@@ -88,8 +101,9 @@ export class AppComponent implements OnInit{
 
 
 export interface UsersDocument{
-  publicName:string;
-  description:string;
+  publicName:string,
+  description:string,
+  userId:string
 }
 function ngOnInit() {
   throw new Error('Function not implemented.');
